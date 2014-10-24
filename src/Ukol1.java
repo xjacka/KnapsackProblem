@@ -93,6 +93,7 @@ public class Ukol1 {
     }
     
     public static long getCpuTime( ) {
+//        return System.nanoTime();
     ThreadMXBean bean = ManagementFactory.getThreadMXBean( );
     return bean.isCurrentThreadCpuTimeSupported( ) ?
         bean.getCurrentThreadCpuTime( ) : 0L;

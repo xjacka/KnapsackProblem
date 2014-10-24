@@ -125,24 +125,31 @@ public class BagSolver {
         stack.push(new Row(n, 1));
         
         while(!stack.empty()){
-            Row r = stack.pop();
-            if(r.position < n - 1){
-                Row r0, r1;
-                r0 = new Row(n, 0, r);
-                r1 = new Row(n, 1, r);
-                
-                if(r0.getMaxPrice(c) > r.getPrice(c) && r0.getWeight(v) <= m){
-                    stack.push(r0);
-                }
-                if(r1.getMaxPrice(c) > r.getPrice(c) && r0.getWeight(v) <= m){
-                    stack.push(r1);
-                }
-            }
+            Row r = stack.pop();           
+            
+//            for(int vr : r.vector){
+//                System.out.print(vr + " ");
+//            }
+//            System.out.println("");
+//            
+//           
             if(r.getPrice(c) > bestPrice && r.getWeight(v) <= m){
                 bestPrice = r.getPrice(c);
                 result.setCenaReseni(r.getPrice(c));
                 result.setVaha_veci(r.getWeight(v));
             }
+            if(r.position < n - 1){
+                Row r0, r1;
+                r0 = new Row(n, 0, r);
+                r1 = new Row(n, 1, r);
+                
+                if(r0.getMaxPrice(c) > bestPrice && r0.getWeight(v) <= m){
+                    stack.push(r0);
+                }
+                if(r1.getMaxPrice(c) > bestPrice && r0.getWeight(v) <= m){
+                    stack.push(r1);
+                }
+            }            
         }
         
          return result;
