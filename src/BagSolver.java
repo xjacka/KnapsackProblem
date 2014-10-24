@@ -60,54 +60,56 @@ public class BagSolver {
         
         int position;
         int [] vector;
+        int price;
+        int maxPrice;
+        int weight;
         
-        public Row(int n, int val){
+        public Row(int n, int val, int [] c, int [] v){
             vector = new int[n];
             position = 0;            
             vector[position] = val;
+            price = 0;
+            maxPrice = 0;
+            weight = 0;
+            int i = 0;
+            if(val == 1){
+                price += c[i];
+                weight += v[i];
+            }
+            for(int ve : vector){
+                if(ve == 1 || i > position){
+                    maxPrice += c[i];
+                } 
+                i++;
+            }            
         }
         
-        public Row(int n, int val, Row row){
+        public Row(int n, int val, Row row, int [] c, int [] v){
             vector = new int[n];
             System.arraycopy( row.vector, 0, vector, 0, row.vector.length );
             position = row.position + 1;
             vector[position] = val;
+            if(val == 1){
+                price = row.price + c[position];
+                weight = row.weight + v[position];
+                maxPrice = row.maxPrice;
+            }else{
+                maxPrice = row.maxPrice - c[position];
+                price = row.price;
+                weight = row.weight;
+            }
         }
         
-        public int getPrice(int [] c){
-            int sum = 0;
-            int i = 0;
-            for(int v : vector){
-                if(v == 1){
-                    sum += c[i];
-                }             
-                i++;
-            }
-            return sum;
+        public int getPrice(){
+            return price;
         }
         
-        public int getWeight(int [] ve){
-            int sum = 0;
-            int i = 0;
-            for(int v : vector){
-                if(v == 1){
-                    sum += ve[i];
-                }             
-                i++;
-            }
-            return sum;
+        public int getWeight(){
+            return weight;
         }
         
-        public int getMaxPrice(int [] c){
-            int sum = 0;
-            int i = 0;
-            for(int v : vector){
-                if(v == 1 || i > position){
-                    sum += c[i];
-                }        
-                i++;
-            }
-            return sum;
+        public int getMaxPrice(){
+            return maxPrice;
         }
     }
     
@@ -121,9 +123,9 @@ public class BagSolver {
         int[] v = programInstance.getVahy();
         int[] c = programInstance.getCeny();
         
-        stack.push(new Row(n, 0));
-        stack.push(new Row(n, 1));
-        
+        stack.push(new Row(n, 0, c, v));
+        stack.push(new Row(n, 1, c, v));
+                
         while(!stack.empty()){
             Row r = stack.pop();           
             
@@ -133,20 +135,20 @@ public class BagSolver {
 //            System.out.println("");
 //            
 //           
-            if(r.getPrice(c) > bestPrice && r.getWeight(v) <= m){
-                bestPrice = r.getPrice(c);
-                result.setCenaReseni(r.getPrice(c));
-                result.setVaha_veci(r.getWeight(v));
+            if(r.getPrice() > bestPrice && r.getWeight() <= m){
+                bestPrice = r.getPrice();
+                result.setCenaReseni(r.getPrice());
+                result.setVahaVeci(r.getWeight());
             }
             if(r.position < n - 1){
                 Row r0, r1;
-                r0 = new Row(n, 0, r);
-                r1 = new Row(n, 1, r);
+                r0 = new Row(n, 0, r, c, v);
+                r1 = new Row(n, 1, r, c, v);
                 
-                if(r0.getMaxPrice(c) > bestPrice && r0.getWeight(v) <= m){
+                if(r0.getMaxPrice() > bestPrice && r0.getWeight() <= m){
                     stack.push(r0);
                 }
-                if(r1.getMaxPrice(c) > bestPrice && r0.getWeight(v) <= m){
+                if(r1.getMaxPrice() > bestPrice && r0.getWeight() <= m){
                     stack.push(r1);
                 }
             }            

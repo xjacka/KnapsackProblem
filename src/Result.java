@@ -101,7 +101,7 @@ public class Result {
         return vahaVeci;
     }
 
-    public void setVaha_veci(int vahaVeci) {
+    public void setVahaVeci(int vahaVeci) {
         this.vahaVeci = vahaVeci;
     }    
 
