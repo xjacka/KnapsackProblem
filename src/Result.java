@@ -105,6 +105,10 @@ public class Result {
         this.vahaVeci = vahaVeci;
     }    
 
+    public double getTime(RunTime.Unit in){
+        return time.getTime(in);
+    }
+    
     public static class RunTime {
 
         public static enum Unit {
@@ -133,7 +137,7 @@ public class Result {
             this.t2 = t2;
         }
 
-        public double getTime(RunTime.Unit in) {
+        private double getTime(RunTime.Unit in) {
             return ((double) (this.t2 - this.t1)) / in.getRate();
         }
     }

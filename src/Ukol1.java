@@ -2,6 +2,7 @@ import java.io.File;
 import java.lang.management.ManagementFactory;
 import java.lang.management.ThreadMXBean;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Ukol1 {
 
@@ -37,7 +38,7 @@ public class Ukol1 {
     private static void solve(ArrayList<ProgramInstance> instances,ArrayList<Result> results){        
 //        ProgramInstance instance = instances.get(3);
         for(ProgramInstance instance : instances){   
-            ArrayList<Result> ResInstances = new ArrayList<>();
+            HashMap<Result.SolveMethod,Result> ResInstances = new HashMap<>();
             Long t1, t2;
             
             // heuristic
@@ -45,35 +46,35 @@ public class Ukol1 {
             Result heuristicResult = bagSolver.solveHeuristic(instance);       
             t2 = getCpuTime();
             heuristicResult.time = new Result.RunTime(t1, t2);
-            ResInstances.add(heuristicResult);
+            ResInstances.put(Result.SolveMethod.HEURISTIC,heuristicResult);
             
             // brute force
             t1 = getCpuTime();
             Result bruteForceResult = bagSolver.solveBruteForce(instance);  
             t2 = getCpuTime();
             bruteForceResult.time = new Result.RunTime(t1, t2);
-            ResInstances.add(bruteForceResult);
+            ResInstances.put(Result.SolveMethod.BRUTE_FORCE,bruteForceResult);
                         
             // branch & bounds
             t1 = getCpuTime();
             Result branchAndBounds = bagSolver.solveBranchAndBound(instance);  
             t2 = getCpuTime();
             branchAndBounds.time = new Result.RunTime(t1, t2);
-            ResInstances.add(branchAndBounds);
+            ResInstances.put(Result.SolveMethod.BRANCH_AND_BOUND,branchAndBounds);
             
             // dynamic programming
             t1 = getCpuTime();
             Result dynamicProgrammingResult = bagSolver.solveDynamicProgramming(instance);
             t2 = getCpuTime();
             dynamicProgrammingResult.time = new Result.RunTime(t1, t2);
-            ResInstances.add(dynamicProgrammingResult);
+            ResInstances.put(Result.SolveMethod.DYNAMIC,dynamicProgrammingResult);
             
             // FPTAS
             t1 = getCpuTime();
             Result FPTASResult = bagSolver.solveFPTAS(instance, 4);
             t2 = getCpuTime();
             FPTASResult.time = new Result.RunTime(t1, t2);
-            ResInstances.add(FPTASResult);           
+            ResInstances.put(Result.SolveMethod.FPTAS,FPTASResult);           
             
             // reference
             Result result = null;
@@ -81,7 +82,7 @@ public class Ukol1 {
                 if(res.getId() == instance.getId()){
                     result = res;
                     res.time = new Result.RunTime(t1, t2);
-                    ResInstances.add(res);
+                    ResInstances.put(Result.SolveMethod.REFERENCE,res);
                     break;
                 }
             }            
