@@ -7,7 +7,7 @@ import java.util.HashMap;
 
 public class Reporter {
 
-    public static enum reportDetail {DEVELOP,FILE};
+    public static enum reportDetail {DEVELOP, FILE, FULL};
     
     HashMap<Result.SolveMethod,Result> results;
     
@@ -16,12 +16,24 @@ public class Reporter {
     }
     
     public void print(Reporter.reportDetail detail){
-        if(detail == reportDetail.DEVELOP){
+        if(detail == reportDetail.FULL){
             System.out.print(results.get(Result.SolveMethod.REFERENCE) .getId() + ">");
             for (Result res : results.values()){
                 System.out.print(" " +res.getName().getName() + ": ");
                 System.out.print(res.cenaReseni);
                 System.out.print(" (" + res.getTime(Result.RunTime.Unit.MILLI) + ") ");
+            }
+            System.out.println("");
+        }
+        if(detail == reportDetail.DEVELOP){
+            System.out.print(results.get(Result.SolveMethod.BRUTE_FORCE).cenaReseni);
+            System.out.print(" (" + results.get(Result.SolveMethod.BRUTE_FORCE).getTime(Result.RunTime.Unit.MILLI) + ")");
+            System.out.print(" ");
+            System.out.print(results.get(Result.SolveMethod.BRANCH_AND_BOUND).cenaReseni);
+            System.out.print(" (" + results.get(Result.SolveMethod.BRANCH_AND_BOUND).getTime(Result.RunTime.Unit.MILLI) + ")");
+            
+            if(results.get(Result.SolveMethod.BRUTE_FORCE).cenaReseni != results.get(Result.SolveMethod.BRANCH_AND_BOUND).cenaReseni){
+                System.out.print(" false");
             }
             System.out.println("");
         }

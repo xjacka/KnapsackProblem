@@ -56,10 +56,95 @@ public class BagSolver {
         return result;
     }
     
+    class Row {
+        
+        int position;
+        int [] vector;
+        
+        public Row(int n, int val){
+            vector = new int[n];
+            position = 0;            
+            vector[position] = val;
+        }
+        
+        public Row(int n, int val, Row row){
+            vector = new int[n];
+            System.arraycopy( row.vector, 0, vector, 0, row.vector.length );
+            position = row.position + 1;
+            vector[position] = val;
+        }
+        
+        public int getPrice(int [] c){
+            int sum = 0;
+            int i = 0;
+            for(int v : vector){
+                if(v == 1){
+                    sum += c[i];
+                }             
+                i++;
+            }
+            return sum;
+        }
+        
+        public int getWeight(int [] ve){
+            int sum = 0;
+            int i = 0;
+            for(int v : vector){
+                if(v == 1){
+                    sum += ve[i];
+                }             
+                i++;
+            }
+            return sum;
+        }
+        
+        public int getMaxPrice(int [] c){
+            int sum = 0;
+            int i = 0;
+            for(int v : vector){
+                if(v == 1 || i > position){
+                    sum += c[i];
+                }        
+                i++;
+            }
+            return sum;
+        }
+    }
+    
     public Result solveBranchAndBound(ProgramInstance programInstance){
-         Result result = new Result(programInstance,Result.SolveMethod.BRANCH_AND_BOUND);
-         Stack<Integer> stack = new Stack<>();
-         
+        Result result = new Result(programInstance,Result.SolveMethod.BRANCH_AND_BOUND);
+        Stack<Row> stack = new Stack<>();
+        int bestPrice = 0;       
+        
+        int n = programInstance.getPocetVeci();
+        int m = programInstance.getKapacitaBatohu();
+        int[] v = programInstance.getVahy();
+        int[] c = programInstance.getCeny();
+        
+        stack.push(new Row(n, 0));
+        stack.push(new Row(n, 1));
+        
+        while(!stack.empty()){
+            Row r = stack.pop();
+            if(r.position < n - 1){
+                Row r0, r1;
+                r0 = new Row(n, 0, r);
+                r1 = new Row(n, 1, r);
+                
+                if(r0.getMaxPrice(c) > r.getPrice(c) && r0.getWeight(v) <= m){
+                    stack.push(r0);
+                }
+                if(r1.getMaxPrice(c) > r.getPrice(c) && r0.getWeight(v) <= m){
+                    stack.push(r1);
+                }
+            }
+            if(r.getPrice(c) > bestPrice && r.getWeight(v) <= m){
+                bestPrice = r.getPrice(c);
+                result.setCenaReseni(r.getPrice(c));
+                result.setVaha_veci(r.getWeight(v));
+            }
+        }
+        
          return result;
     }
     
