@@ -32,7 +32,7 @@ public class Reporter {
             System.out.print(results.get(Result.SolveMethod.BRANCH_AND_BOUND).cenaReseni);
             System.out.print(" (" + results.get(Result.SolveMethod.BRANCH_AND_BOUND).getTime(Result.RunTime.Unit.MILLI) + ") ");
             
-            System.out.print("= " + (results.get(Result.SolveMethod.BRANCH_AND_BOUND).getTime(Result.RunTime.Unit.MILLI) / results.get(Result.SolveMethod.BRUTE_FORCE).getTime(Result.RunTime.Unit.MILLI)));
+            System.out.print("= " + (results.get(Result.SolveMethod.BRUTE_FORCE).getTime(Result.RunTime.Unit.MILLI) / results.get(Result.SolveMethod.BRANCH_AND_BOUND).getTime(Result.RunTime.Unit.MILLI)));
             
             if(results.get(Result.SolveMethod.BRUTE_FORCE).cenaReseni != results.get(Result.SolveMethod.BRANCH_AND_BOUND).cenaReseni){
                 System.out.print(" false");

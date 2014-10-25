@@ -121,13 +121,14 @@ public class BagSolver {
                 bestPrice = r.price;
                 result.setCenaReseni(r.price);
                 result.setVahaVeci(r.weight);
+                result.setReseni(r.vector);
             }
             if(r.position < n - 1){
                 Row r0, r1;
                 r0 = new Row(n, 0, r, c, v);
                 r1 = new Row(n, 1, r, c, v);
                 
-                if(r0.maxPrice > bestPrice && r0.weight<= m){
+                if(r0.maxPrice > bestPrice && r0.weight <= m){
                     stack.push(r0);
                 }
                 if(r1.maxPrice > bestPrice && r0.weight <= m){

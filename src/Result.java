@@ -44,8 +44,8 @@ public class Result {
     }
     
     public Result(ProgramInstance programInstance,SolveMethod name){
-        this.reseni = new int[programInstance.getKapacitaBatohu()];
-        this.pocetVeci = programInstance.getKapacitaBatohu();
+        this.reseni = new int[programInstance.getPocetVeci()];
+        this.pocetVeci = programInstance.getPocetVeci();
         this.id = programInstance.getId();
         this.name = name;
     }
@@ -76,6 +76,10 @@ public class Result {
 
     public void addReseni(int position, int reseni) {
         this.reseni[position] = reseni;
+    }
+    
+    public void setReseni(int [] reseni) {
+        this.reseni = reseni;
     }
     
     @Override
