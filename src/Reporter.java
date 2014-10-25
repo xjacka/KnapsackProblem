@@ -53,10 +53,58 @@ public class Reporter {
             try {                   
                 FileWriter fw = new FileWriter(resultFile.getAbsoluteFile(),true);
                 try (BufferedWriter bw = new BufferedWriter(fw)) {
+                    // casy
                     bw.write(String.format("%11.5f ", results.get(Result.SolveMethod.HEURISTIC).getTime(Result.RunTime.Unit.MILLI)));
-//                    bw.write(String.format("%11.5f ", time.getBruteForceTime(RunTime.Unit.MILLI)));
-//                    bw.write(String.format("%11.5f ", time.getBruteForceTime(RunTime.Unit.MILLI)/time.getHeuristicTime(RunTime.Unit.MILLI)));
-//                    bw.write(String.format("%11.5f %n", (double)(bruteForceResult.getCenaReseni()-heuristicResult.getCenaReseni())/(double)bruteForceResult.getCenaReseni()));
+                    bw.write(String.format("%11.5f ", results.get(Result.SolveMethod.BRUTE_FORCE).getTime(Result.RunTime.Unit.MILLI)));
+                    bw.write(String.format("%11.5f ", results.get(Result.SolveMethod.DYNAMIC).getTime(Result.RunTime.Unit.MILLI)));
+                    bw.write(String.format("%11.5f ", results.get(Result.SolveMethod.BRANCH_AND_BOUND).getTime(Result.RunTime.Unit.MILLI)));
+                    bw.write(String.format("%11.5f ", results.get(Result.SolveMethod.FPTAS2).getTime(Result.RunTime.Unit.MILLI)));
+                    bw.write(String.format("%11.5f ", results.get(Result.SolveMethod.FPTAS4).getTime(Result.RunTime.Unit.MILLI)));
+                    bw.write(String.format("%11.5f ", results.get(Result.SolveMethod.FPTAS8).getTime(Result.RunTime.Unit.MILLI)));
+                    bw.write(String.format("%11.5f ", results.get(Result.SolveMethod.FPTAS16).getTime(Result.RunTime.Unit.MILLI)));
+                    
+                    // zrychleni
+                    bw.write(String.format("%11.5f ", results.get(Result.SolveMethod.BRUTE_FORCE).getTime(Result.RunTime.Unit.MILLI)
+                                                    / results.get(Result.SolveMethod.HEURISTIC).getTime(Result.RunTime.Unit.MILLI)));
+                    
+                    bw.write(String.format("%11.5f ", results.get(Result.SolveMethod.BRUTE_FORCE).getTime(Result.RunTime.Unit.MILLI)
+                                                    / results.get(Result.SolveMethod.DYNAMIC).getTime(Result.RunTime.Unit.MILLI)));
+                    
+                    bw.write(String.format("%11.5f ", results.get(Result.SolveMethod.BRUTE_FORCE).getTime(Result.RunTime.Unit.MILLI)
+                                                    / results.get(Result.SolveMethod.BRANCH_AND_BOUND).getTime(Result.RunTime.Unit.MILLI)));
+                    
+                    bw.write(String.format("%11.5f ", results.get(Result.SolveMethod.BRUTE_FORCE).getTime(Result.RunTime.Unit.MILLI)
+                                                    / results.get(Result.SolveMethod.FPTAS2).getTime(Result.RunTime.Unit.MILLI)));
+                    
+                    bw.write(String.format("%11.5f ", results.get(Result.SolveMethod.BRUTE_FORCE).getTime(Result.RunTime.Unit.MILLI)
+                                                    / results.get(Result.SolveMethod.FPTAS4).getTime(Result.RunTime.Unit.MILLI)));
+                    
+                    bw.write(String.format("%11.5f ", results.get(Result.SolveMethod.BRUTE_FORCE).getTime(Result.RunTime.Unit.MILLI)
+                                                    / results.get(Result.SolveMethod.FPTAS8).getTime(Result.RunTime.Unit.MILLI)));
+                    
+                    bw.write(String.format("%11.5f ", results.get(Result.SolveMethod.BRUTE_FORCE).getTime(Result.RunTime.Unit.MILLI)
+                                                    / results.get(Result.SolveMethod.FPTAS16).getTime(Result.RunTime.Unit.MILLI)));
+                    
+                    // nepresnost
+                    bw.write(String.format("%11.5f ", (double)(results.get(Result.SolveMethod.BRUTE_FORCE).getCenaReseni()
+                                                    - results.get(Result.SolveMethod.HEURISTIC).getCenaReseni())
+                                                        / (double)results.get(Result.SolveMethod.BRUTE_FORCE).getCenaReseni()));
+                    
+                    bw.write(String.format("%11.5f ", (double)(results.get(Result.SolveMethod.BRUTE_FORCE).getCenaReseni()
+                                                    - results.get(Result.SolveMethod.FPTAS2).getCenaReseni())
+                                                        / (double)results.get(Result.SolveMethod.BRUTE_FORCE).getCenaReseni()));
+                    
+                    bw.write(String.format("%11.5f ", (double)(results.get(Result.SolveMethod.BRUTE_FORCE).getCenaReseni()
+                                                    - results.get(Result.SolveMethod.FPTAS4).getCenaReseni())
+                                                        / (double)results.get(Result.SolveMethod.BRUTE_FORCE).getCenaReseni()));
+                    
+                    bw.write(String.format("%11.5f ", (double)(results.get(Result.SolveMethod.BRUTE_FORCE).getCenaReseni()
+                                                    - results.get(Result.SolveMethod.FPTAS8).getCenaReseni())
+                                                        / (double)results.get(Result.SolveMethod.BRUTE_FORCE).getCenaReseni()));
+                    
+                    bw.write(String.format("%11.5f %n", (double)(results.get(Result.SolveMethod.BRUTE_FORCE).getCenaReseni()
+                                                    - results.get(Result.SolveMethod.FPTAS16).getCenaReseni())
+                                                        / (double)results.get(Result.SolveMethod.BRUTE_FORCE).getCenaReseni()));
                 }
             } catch (IOException ex) {
                 System.out.println("Can create file writer");

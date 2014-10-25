@@ -199,14 +199,14 @@ public class BagSolver {
         return result;
     }
     
-    public Result solveFPTAS(ProgramInstance programInstance,int bits){
+    public Result solveFPTAS(ProgramInstance programInstance,int bits, Result.SolveMethod method){
         
         for(int i = 0; i < programInstance.getPocetVeci(); i++){
             programInstance.addCena(i, programInstance.getCeny()[i] / bits);
         }
         
         Result result = solveDynamicProgramming(programInstance); 
-        result.setName(Result.SolveMethod.FPTAS);
+        result.setName(method);
         result.setCenaReseni(result.getCenaReseni() * bits);
         return result;
     }

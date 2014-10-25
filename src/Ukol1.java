@@ -69,12 +69,33 @@ public class Ukol1 {
             dynamicProgrammingResult.time = new Result.RunTime(t1, t2);
             ResInstances.put(Result.SolveMethod.DYNAMIC,dynamicProgrammingResult);
             
-            // FPTAS
+            // FPTAS 2bity
             t1 = getCpuTime();
-            Result FPTASResult = bagSolver.solveFPTAS(instance, 4);
+            Result FPTASResult1 = bagSolver.solveFPTAS(instance, 2, Result.SolveMethod.FPTAS2);
             t2 = getCpuTime();
-            FPTASResult.time = new Result.RunTime(t1, t2);
-            ResInstances.put(Result.SolveMethod.FPTAS,FPTASResult);           
+            FPTASResult1.time = new Result.RunTime(t1, t2);
+            ResInstances.put(Result.SolveMethod.FPTAS2,FPTASResult1);           
+            
+             // FPTAS 4bity
+            t1 = getCpuTime();
+            Result FPTASResult2 = bagSolver.solveFPTAS(instance, 4, Result.SolveMethod.FPTAS4);
+            t2 = getCpuTime();
+            FPTASResult2.time = new Result.RunTime(t1, t2);
+            ResInstances.put(Result.SolveMethod.FPTAS4,FPTASResult2);      
+            
+             // FPTAS 8bity
+            t1 = getCpuTime();
+            Result FPTASResult3 = bagSolver.solveFPTAS(instance, 8, Result.SolveMethod.FPTAS8);
+            t2 = getCpuTime();
+            FPTASResult3.time = new Result.RunTime(t1, t2);
+            ResInstances.put(Result.SolveMethod.FPTAS8,FPTASResult3);      
+            
+             // FPTAS 16bity
+            t1 = getCpuTime();
+            Result FPTASResult4 = bagSolver.solveFPTAS(instance, 16, Result.SolveMethod.FPTAS16);
+            t2 = getCpuTime();
+            FPTASResult4.time = new Result.RunTime(t1, t2);
+            ResInstances.put(Result.SolveMethod.FPTAS16,FPTASResult4);      
             
             // reference
             Result result = null;
@@ -88,7 +109,7 @@ public class Ukol1 {
             }            
                         
             Reporter reporter = new Reporter(ResInstances);
-            reporter.print(Reporter.reportDetail.DEVELOP);
+            reporter.print(Reporter.reportDetail.FILE);
         }
     }
     

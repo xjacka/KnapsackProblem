@@ -14,7 +14,10 @@ public class Result {
         BRUTE_FORCE("bruteForce"),
         REFERENCE("reference"),
         BRANCH_AND_BOUND("branchAndBound"),
-        FPTAS("FPTAS"),
+        FPTAS2("FPTAS2"),
+        FPTAS4("FPTAS4"),
+        FPTAS8("FPTAS8"),
+        FPTAS16("FPTAS16"),
         DYNAMIC("dymanic"),
         HEURISTIC("heuristic");
     
