@@ -18,6 +18,8 @@ public class Result {
         FPTAS4("FPTAS4"),
         FPTAS8("FPTAS8"),
         FPTAS16("FPTAS16"),
+        FPTAS32("FPTAS32"),
+        FPTAS64("FPTAS64"),
         DYNAMIC("dymanic"),
         HEURISTIC("heuristic");
     

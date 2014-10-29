@@ -22,7 +22,7 @@ public class Ukol1 {
         if("-to".equals(args[0])){
             String[] files = {"4","10","15","20","22","25","27","30","32","35","37","40"};
             for(int i = 0;Integer.parseInt(args[2]) >= Integer.parseInt(files[i]);i++){
-                System.out.println("-------"+files[i]+"-------"); 
+                System.out.println("\n-------"+files[i]+"-------"); 
                 instances = parser.parseInput(new File(args[1] + "knap_"+files[i]+".inst.dat"));
                 results = parser.parseOutput(new File(args[1] + "knap_"+files[i]+".sol.dat"));
                 solve(instances,results);
@@ -69,33 +69,47 @@ public class Ukol1 {
             dynamicProgrammingResult.time = new Result.RunTime(t1, t2);
             ResInstances.put(Result.SolveMethod.DYNAMIC,dynamicProgrammingResult);
             
-            // FPTAS 2bity
+            // FPTAS 1bit
             t1 = getCpuTime();
             Result FPTASResult1 = bagSolver.solveFPTAS(instance, 2, Result.SolveMethod.FPTAS2);
             t2 = getCpuTime();
             FPTASResult1.time = new Result.RunTime(t1, t2);
             ResInstances.put(Result.SolveMethod.FPTAS2,FPTASResult1);           
             
-             // FPTAS 4bity
+             // FPTAS 2bity
             t1 = getCpuTime();
             Result FPTASResult2 = bagSolver.solveFPTAS(instance, 4, Result.SolveMethod.FPTAS4);
             t2 = getCpuTime();
             FPTASResult2.time = new Result.RunTime(t1, t2);
             ResInstances.put(Result.SolveMethod.FPTAS4,FPTASResult2);      
             
-             // FPTAS 8bity
+             // FPTAS 3bity
             t1 = getCpuTime();
             Result FPTASResult3 = bagSolver.solveFPTAS(instance, 8, Result.SolveMethod.FPTAS8);
             t2 = getCpuTime();
             FPTASResult3.time = new Result.RunTime(t1, t2);
             ResInstances.put(Result.SolveMethod.FPTAS8,FPTASResult3);      
             
-             // FPTAS 16bity
+             // FPTAS 4bity
             t1 = getCpuTime();
             Result FPTASResult4 = bagSolver.solveFPTAS(instance, 16, Result.SolveMethod.FPTAS16);
             t2 = getCpuTime();
             FPTASResult4.time = new Result.RunTime(t1, t2);
-            ResInstances.put(Result.SolveMethod.FPTAS16,FPTASResult4);      
+            ResInstances.put(Result.SolveMethod.FPTAS16,FPTASResult4); 
+            
+            // FPTAS 5bity
+            t1 = getCpuTime();
+            Result FPTASResult5 = bagSolver.solveFPTAS(instance, 32, Result.SolveMethod.FPTAS32);
+            t2 = getCpuTime();
+            FPTASResult5.time = new Result.RunTime(t1, t2);
+            ResInstances.put(Result.SolveMethod.FPTAS32,FPTASResult5); 
+            
+             // FPTAS 6bity
+            t1 = getCpuTime();
+            Result FPTASResult6 = bagSolver.solveFPTAS(instance, 64, Result.SolveMethod.FPTAS64);
+            t2 = getCpuTime();
+            FPTASResult6.time = new Result.RunTime(t1, t2);
+            ResInstances.put(Result.SolveMethod.FPTAS64,FPTASResult6);
             
             // reference
             Result result = null;
@@ -109,7 +123,7 @@ public class Ukol1 {
             }            
                         
             Reporter reporter = new Reporter(ResInstances);
-            reporter.print(Reporter.reportDetail.FILE);
+            reporter.print(Reporter.reportDetail.DEVELOP);
         }
     }
     

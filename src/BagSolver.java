@@ -201,11 +201,17 @@ public class BagSolver {
     
     public Result solveFPTAS(ProgramInstance programInstance,int bits, Result.SolveMethod method){
         
-        for(int i = 0; i < programInstance.getPocetVeci(); i++){
-            programInstance.addCena(i, programInstance.getCeny()[i] / bits);
-        }
+        ProgramInstance modifiedInstance = new ProgramInstance(programInstance.getPocetVeci());
+        modifiedInstance.setId(programInstance.getId());
+        modifiedInstance.setKapacitaBatohu(programInstance.getKapacitaBatohu());
+        modifiedInstance.setPocetVeci(programInstance.pocetVeci);
         
-        Result result = solveDynamicProgramming(programInstance); 
+            for(int i = 0; i < programInstance.getPocetVeci(); i++){
+                modifiedInstance.addCena(i, programInstance.getCeny()[i] / bits);
+                modifiedInstance.addVaha(i, programInstance.getVahy()[i]);
+            }
+        
+        Result result = solveDynamicProgramming(modifiedInstance); 
         result.setName(method);
         result.setCenaReseni(result.getCenaReseni() * bits);
         return result;
