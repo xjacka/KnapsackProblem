@@ -48,7 +48,7 @@ public class Reporter {
         }
         if(detail == Reporter.reportDetail.FILE){
             System.out.print(".");
-            File resultFile = new File("result1.dat");
+            File resultFile = new File("result.dat");
             
             if (!resultFile.exists()) {
                 try {
@@ -118,11 +118,11 @@ public class Reporter {
                                                     - results.get(Result.SolveMethod.FPTAS8).getCenaReseni())
                                                         / (double)results.get(Result.SolveMethod.REFERENCE).getCenaReseni()));
                     
-                    bw.write(String.format("%11.5f %n", (double)(results.get(Result.SolveMethod.REFERENCE).getCenaReseni() // 24
+                    bw.write(String.format("%11.5f", (double)(results.get(Result.SolveMethod.REFERENCE).getCenaReseni() // 24
                                                     - results.get(Result.SolveMethod.FPTAS16).getCenaReseni())
                                                         / (double)results.get(Result.SolveMethod.REFERENCE).getCenaReseni()));
                     
-                    bw.write(String.format("%11.5f %n", (double)(results.get(Result.SolveMethod.REFERENCE).getCenaReseni() // 25
+                    bw.write(String.format("%11.5f", (double)(results.get(Result.SolveMethod.REFERENCE).getCenaReseni() // 25
                                                     - results.get(Result.SolveMethod.FPTAS32).getCenaReseni())
                                                         / (double)results.get(Result.SolveMethod.REFERENCE).getCenaReseni()));
                     

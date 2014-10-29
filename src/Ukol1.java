@@ -123,7 +123,7 @@ public class Ukol1 {
             }            
                         
             Reporter reporter = new Reporter(ResInstances);
-            reporter.print(Reporter.reportDetail.DEVELOP);
+            reporter.print(Reporter.reportDetail.FILE);
         }
     }
     
