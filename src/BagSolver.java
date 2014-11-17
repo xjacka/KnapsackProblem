@@ -213,7 +213,15 @@ public class BagSolver {
         
         Result result = solveDynamicProgramming(modifiedInstance); 
         result.setName(method);
-        result.setCenaReseni(result.getCenaReseni() * bits);
+        
+        int sum = 0;
+        for(int i = 0; i < programInstance.getPocetVeci(); i++){
+            if(result.reseni[i] == 1){
+                sum += programInstance.getCeny()[i];
+            }
+        }
+        
+        result.setCenaReseni(sum);
         return result;
     }
 }
