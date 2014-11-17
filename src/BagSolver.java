@@ -201,27 +201,29 @@ public class BagSolver {
     
     public Result solveFPTAS(ProgramInstance programInstance,int bits, Result.SolveMethod method){
         
+        // kopírování počáteční instance
         ProgramInstance modifiedInstance = new ProgramInstance(programInstance.getPocetVeci());
         modifiedInstance.setId(programInstance.getId());
         modifiedInstance.setKapacitaBatohu(programInstance.getKapacitaBatohu());
-        modifiedInstance.setPocetVeci(programInstance.pocetVeci);
+        modifiedInstance.setPocetVeci(programInstance.pocetVeci);        
+        for(int i = 0; i < programInstance.getPocetVeci(); i++){
+            modifiedInstance.addCena(i, programInstance.getCeny()[i] / bits);
+            modifiedInstance.addVaha(i, programInstance.getVahy()[i]);
+        }
         
-            for(int i = 0; i < programInstance.getPocetVeci(); i++){
-                modifiedInstance.addCena(i, programInstance.getCeny()[i] / bits);
-                modifiedInstance.addVaha(i, programInstance.getVahy()[i]);
-            }
-        
+        // samotné řešení pomocí dynamického programování
         Result result = solveDynamicProgramming(modifiedInstance); 
-        result.setName(method);
         
+        // nastavení výsledku
+        result.setName(method);        
         int sum = 0;
         for(int i = 0; i < programInstance.getPocetVeci(); i++){
             if(result.reseni[i] == 1){
                 sum += programInstance.getCeny()[i];
             }
-        }
-        
+        }        
         result.setCenaReseni(sum);
+        
         return result;
     }
 }
