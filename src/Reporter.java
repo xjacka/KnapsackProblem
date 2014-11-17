@@ -10,9 +10,11 @@ public class Reporter {
     public static enum reportDetail {DEVELOP, FILE, FULL};
     
     HashMap<Result.SolveMethod,Result> results;
+    ProgramInstance instance;
     
-    public Reporter(HashMap<Result.SolveMethod,Result> results){
+    public Reporter(HashMap<Result.SolveMethod,Result> results, ProgramInstance instance){
         this.results = results;
+        this.instance = instance;                
     }
     
     public void print(Reporter.reportDetail detail){
@@ -38,13 +40,17 @@ public class Reporter {
 //                System.out.print(" false");
 //            }
 //            System.out.println("");
+//            System.out.print(results.get(Result.SolveMethod.REFERENCE).getCenaReseni() + " ");
+//            System.out.print(results.get(Result.SolveMethod.FPTAS2).getCenaReseni() + " ");
+//            System.out.print(results.get(Result.SolveMethod.FPTAS4).getCenaReseni() + " ");
+//            System.out.print(results.get(Result.SolveMethod.FPTAS8).getCenaReseni() + " ");
+//            System.out.print(results.get(Result.SolveMethod.FPTAS16).getCenaReseni() + " ");
+//            System.out.print(results.get(Result.SolveMethod.FPTAS32).getCenaReseni() + " ");
+//            System.out.println(results.get(Result.SolveMethod.FPTAS64).getCenaReseni());
+            
             System.out.print(results.get(Result.SolveMethod.REFERENCE).getCenaReseni() + " ");
             System.out.print(results.get(Result.SolveMethod.FPTAS2).getCenaReseni() + " ");
-            System.out.print(results.get(Result.SolveMethod.FPTAS4).getCenaReseni() + " ");
-            System.out.print(results.get(Result.SolveMethod.FPTAS8).getCenaReseni() + " ");
-            System.out.print(results.get(Result.SolveMethod.FPTAS16).getCenaReseni() + " ");
-            System.out.print(results.get(Result.SolveMethod.FPTAS32).getCenaReseni() + " ");
-            System.out.println(results.get(Result.SolveMethod.FPTAS64).getCenaReseni());
+            System.out.println(results.get(Result.SolveMethod.FPTAS8).getCenaReseni() + " ");
         }
         if(detail == Reporter.reportDetail.FILE){
             System.out.print(".");
@@ -126,15 +132,46 @@ public class Reporter {
                                                     - results.get(Result.SolveMethod.FPTAS32).getCenaReseni())
                                                         / (double)results.get(Result.SolveMethod.REFERENCE).getCenaReseni()));
                     
-                    bw.write(String.format("%11.5f %n", (double)(results.get(Result.SolveMethod.REFERENCE).getCenaReseni() // 26
+                    bw.write(String.format("%11.5f ", (double)(results.get(Result.SolveMethod.REFERENCE).getCenaReseni() // 26
                                                     - results.get(Result.SolveMethod.FPTAS64).getCenaReseni())
                                                         / (double)results.get(Result.SolveMethod.REFERENCE).getCenaReseni()));
+                    
+                    // predpokladana chyba
+                    bw.write(String.format("%11.5f ", ((results.get(Result.SolveMethod.FPTAS2).getPocetVeci() * Math.pow(2, 1)) / getMaxValue(instance.getCeny())))); // 27
+                    bw.write(String.format("%11.5f ", ((results.get(Result.SolveMethod.FPTAS4).getPocetVeci() * Math.pow(2, 2)) / getMaxValue(instance.getCeny())))); // 28
+                    bw.write(String.format("%11.5f ", ((results.get(Result.SolveMethod.FPTAS8).getPocetVeci() * Math.pow(2, 3)) / getMaxValue(instance.getCeny())))); // 29
+                    bw.write(String.format("%11.5f ", ((results.get(Result.SolveMethod.FPTAS16).getPocetVeci() * Math.pow(2, 4)) / getMaxValue(instance.getCeny())))); // 30
+                    bw.write(String.format("%11.5f ", ((results.get(Result.SolveMethod.FPTAS32).getPocetVeci() * Math.pow(2, 5)) / getMaxValue(instance.getCeny())))); // 31
+                    bw.write(String.format("%11.5f ", ((results.get(Result.SolveMethod.FPTAS64).getPocetVeci() * Math.pow(2, 6)) / getMaxValue(instance.getCeny())))); // 32
+                    
+                    // pocet navstivenych stavu
+                    bw.write(String.format("%d ", results.get(Result.SolveMethod.HEURISTIC).navstivenychStavu)); // 33
+                    bw.write(String.format("%d ", results.get(Result.SolveMethod.BRUTE_FORCE).navstivenychStavu)); // 34
+                    bw.write(String.format("%d ", results.get(Result.SolveMethod.DYNAMIC).navstivenychStavu)); // 35
+                    bw.write(String.format("%d ", results.get(Result.SolveMethod.BRANCH_AND_BOUND).navstivenychStavu)); // 36
+                    bw.write(String.format("%d ", results.get(Result.SolveMethod.FPTAS2).navstivenychStavu)); // 37
+                    bw.write(String.format("%d ", results.get(Result.SolveMethod.FPTAS4).navstivenychStavu)); // 38
+                    bw.write(String.format("%d ", results.get(Result.SolveMethod.FPTAS8).navstivenychStavu)); // 39
+                    bw.write(String.format("%d ", results.get(Result.SolveMethod.FPTAS16).navstivenychStavu)); // 40
+                    bw.write(String.format("%d ", results.get(Result.SolveMethod.FPTAS32).navstivenychStavu)); // 41
+                    bw.write(String.format("%d %n", results.get(Result.SolveMethod.FPTAS64).navstivenychStavu)); // 42
+
                 }
             } catch (IOException ex) {
                 System.out.println("Can create file writer");
             }
-        }
+        }        
     }
+ 
+public static int getMaxValue(int[] array){  
+    int maxValue = array[0];  
+    for(int i=1;i < array.length;i++){  
+      if(array[i] > maxValue){  
+          maxValue = array[i];  
+      }  
+  }  
+  return maxValue;  
+} 
     
 }
 

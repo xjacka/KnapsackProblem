@@ -7,6 +7,7 @@ public class Result {
     int cenaReseni = 0;
     int [] reseni;
     int vahaVeci = 0;
+    int navstivenychStavu = 0;
     SolveMethod name;
     public RunTime time;
 

@@ -7,6 +7,7 @@ public class BagSolver {
     
     public Result solveHeuristic(ProgramInstance programInstance){
         Result result = new Result(programInstance,Result.SolveMethod.HEURISTIC);  
+        result.navstivenychStavu = result.pocetVeci;
         
         ArrayList<Ratio> pomer = new ArrayList<>();
         
@@ -34,7 +35,8 @@ public class BagSolver {
             pomer.add(new Ratio(programInstance.getCeny()[i],programInstance.getVahy()[i],i));
         }
         
-        long mocnina = (long)Math.pow(2,programInstance.getPocetVeci());
+        int mocnina = (int)Math.pow(2,programInstance.getPocetVeci());
+        result.navstivenychStavu = mocnina;
         
         for(long i = 0;i < mocnina;i++){
             Result pomocnyResult = new Result(programInstance,Result.SolveMethod.BRUTE_FORCE);
@@ -115,7 +117,8 @@ public class BagSolver {
         stack.push(new Row(n, 1, c, v));
                 
         while(!stack.empty()){
-            Row r = stack.pop();           
+            Row r = stack.pop();
+            result.navstivenychStavu++;
              
             if(r.price > bestPrice && r.weight <= m){
                 bestPrice = r.price;
@@ -177,6 +180,7 @@ public class BagSolver {
                 }
             }
         }
+        result.navstivenychStavu = sum * n;
         
         int sloupec = n;
         boolean start = false;
