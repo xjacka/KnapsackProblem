@@ -27,7 +27,11 @@ public class Ukol1 {
                 results = parser.parseOutput(new File(args[1] + "knap_"+files[i]+".sol.dat"));
                 solve(instances,results);
             }
-        }else{
+        }else if("-file".equals(args[0])){
+            instances = parser.parseInput(new File(args[1]));
+            solve(instances,null);
+        }
+        else{
             instances = parser.parseInput(new File(args[0] + "knap_"+args[1]+".inst.dat"));
             results = parser.parseOutput(new File(args[0] + "knap_"+args[1]+".sol.dat"));
             solve(instances,results);
@@ -113,17 +117,21 @@ public class Ukol1 {
             
             // reference
             Result result = null;
-            for(Result res : results){
-                if(res.getId() == instance.getId()){
-                    result = res;
-                    res.time = new Result.RunTime(t1, t2);
-                    ResInstances.put(Result.SolveMethod.REFERENCE,res);
-                    break;
-                }
-            }            
+            if(results != null){
+                for(Result res : results){
+                    if(res.getId() == instance.getId()){
+                        result = res;
+                        res.time = new Result.RunTime(t1, t2);
+                        ResInstances.put(Result.SolveMethod.REFERENCE,res);
+                        break;
+                    }
+                } 
+            }else{
+                ResInstances.put(Result.SolveMethod.REFERENCE,bruteForceResult);
+            }
                         
             Reporter reporter = new Reporter(ResInstances,instance);
-            reporter.print(Reporter.reportDetail.DEVELOP);
+            reporter.print(Reporter.reportDetail.FILE);
         }
     }
     

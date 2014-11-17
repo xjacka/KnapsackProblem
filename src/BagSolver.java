@@ -40,6 +40,7 @@ public class BagSolver {
         
         for(long i = 0;i < mocnina;i++){
             Result pomocnyResult = new Result(programInstance,Result.SolveMethod.BRUTE_FORCE);
+            pomocnyResult.navstivenychStavu = mocnina;
 
             long delenec = i;
             for(int j = 0; j < programInstance.getPocetVeci() && delenec > 0;j++){                

@@ -68,7 +68,7 @@ public class Reporter {
                 FileWriter fw = new FileWriter(resultFile.getAbsoluteFile(),true);
                 try (BufferedWriter bw = new BufferedWriter(fw)) {
                     // casy
-                    bw.write(String.format("%11.5f ", results.get(Result.SolveMethod.HEURISTIC).getTime(Result.RunTime.Unit.MILLI))); // 1
+                    bw.write(String.format("%1.5f ", results.get(Result.SolveMethod.HEURISTIC).getTime(Result.RunTime.Unit.MILLI))); // 1
                     bw.write(String.format("%11.5f ", results.get(Result.SolveMethod.BRUTE_FORCE).getTime(Result.RunTime.Unit.MILLI))); // 2
                     bw.write(String.format("%11.5f ", results.get(Result.SolveMethod.DYNAMIC).getTime(Result.RunTime.Unit.MILLI))); // 3
                     bw.write(String.format("%11.5f ", results.get(Result.SolveMethod.BRANCH_AND_BOUND).getTime(Result.RunTime.Unit.MILLI))); // 4
