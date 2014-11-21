@@ -108,33 +108,33 @@ public class Reporter {
                                                     / results.get(Result.SolveMethod.FPTAS64).getTime(Result.RunTime.Unit.MILLI)));
                     
                     // nepresnost
-                    bw.write(String.format("%11.5f ", (double)(results.get(Result.SolveMethod.REFERENCE).getCenaReseni() // 20
+                    bw.write(String.format("%11.5f ", (double)(results.get(Result.SolveMethod.BRUTE_FORCE).getCenaReseni() // 20
                                                     - results.get(Result.SolveMethod.HEURISTIC).getCenaReseni())
-                                                        / (double)results.get(Result.SolveMethod.REFERENCE).getCenaReseni()));
+                                                        / (double)results.get(Result.SolveMethod.BRUTE_FORCE).getCenaReseni()));
                     
-                    bw.write(String.format("%11.5f ", (double)(results.get(Result.SolveMethod.REFERENCE).getCenaReseni() // 21
+                    bw.write(String.format("%11.5f ", (double)(results.get(Result.SolveMethod.BRUTE_FORCE).getCenaReseni() // 21
                                                     - results.get(Result.SolveMethod.FPTAS2).getCenaReseni())
-                                                        / (double)results.get(Result.SolveMethod.REFERENCE).getCenaReseni()));
+                                                        / (double)results.get(Result.SolveMethod.BRUTE_FORCE).getCenaReseni()));
                     
-                    bw.write(String.format("%11.5f ", (double)(results.get(Result.SolveMethod.REFERENCE).getCenaReseni() // 22
+                    bw.write(String.format("%11.5f ", (double)(results.get(Result.SolveMethod.BRUTE_FORCE).getCenaReseni() // 22
                                                     - results.get(Result.SolveMethod.FPTAS4).getCenaReseni())
-                                                        / (double)results.get(Result.SolveMethod.REFERENCE).getCenaReseni()));
+                                                        / (double)results.get(Result.SolveMethod.BRUTE_FORCE).getCenaReseni()));
                     
-                    bw.write(String.format("%11.5f ", (double)(results.get(Result.SolveMethod.REFERENCE).getCenaReseni() // 23
+                    bw.write(String.format("%11.5f ", (double)(results.get(Result.SolveMethod.BRUTE_FORCE).getCenaReseni() // 23
                                                     - results.get(Result.SolveMethod.FPTAS8).getCenaReseni())
-                                                        / (double)results.get(Result.SolveMethod.REFERENCE).getCenaReseni()));
+                                                        / (double)results.get(Result.SolveMethod.BRUTE_FORCE).getCenaReseni()));
                     
-                    bw.write(String.format("%11.5f", (double)(results.get(Result.SolveMethod.REFERENCE).getCenaReseni() // 24
+                    bw.write(String.format("%11.5f", (double)(results.get(Result.SolveMethod.BRUTE_FORCE).getCenaReseni() // 24
                                                     - results.get(Result.SolveMethod.FPTAS16).getCenaReseni())
-                                                        / (double)results.get(Result.SolveMethod.REFERENCE).getCenaReseni()));
+                                                        / (double)results.get(Result.SolveMethod.BRUTE_FORCE).getCenaReseni()));
                     
-                    bw.write(String.format("%11.5f", (double)(results.get(Result.SolveMethod.REFERENCE).getCenaReseni() // 25
+                    bw.write(String.format("%11.5f", (double)(results.get(Result.SolveMethod.BRUTE_FORCE).getCenaReseni() // 25
                                                     - results.get(Result.SolveMethod.FPTAS32).getCenaReseni())
-                                                        / (double)results.get(Result.SolveMethod.REFERENCE).getCenaReseni()));
+                                                        / (double)results.get(Result.SolveMethod.BRUTE_FORCE).getCenaReseni()));
                     
-                    bw.write(String.format("%11.5f ", (double)(results.get(Result.SolveMethod.REFERENCE).getCenaReseni() // 26
+                    bw.write(String.format("%11.5f ", (double)(results.get(Result.SolveMethod.BRUTE_FORCE).getCenaReseni() // 26
                                                     - results.get(Result.SolveMethod.FPTAS64).getCenaReseni())
-                                                        / (double)results.get(Result.SolveMethod.REFERENCE).getCenaReseni()));
+                                                        / (double)results.get(Result.SolveMethod.BRUTE_FORCE).getCenaReseni()));
                     
                     // predpokladana chyba
                     bw.write(String.format("%11.5f ", ((results.get(Result.SolveMethod.FPTAS2).getPocetVeci() * Math.pow(2, 1)) / getMaxValue(instance.getCeny())))); // 27
@@ -176,3 +176,4 @@ public static int getMaxValue(int[] array){
 }
 
 //cat ukol1/result.dat | sed -n 's/ \+/ /gp' | cut -d " " -f 2
+// ./knap -n 20 -N 50 -m 1 -W 100 -C 250 -k 1 -d 1 > out ; java -jar ../prvni_ukol/ukol1/dist/ukol1.jar -file ../knapgen/out ; cat ../knapgen//result.dat | sed -n 's/ \+/ /gp' | cut -d " " -f 26
