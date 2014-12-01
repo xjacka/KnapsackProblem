@@ -212,7 +212,7 @@ public class BagSolver {
         modifiedInstance.setKapacitaBatohu(programInstance.getKapacitaBatohu());
         modifiedInstance.setPocetVeci(programInstance.pocetVeci);        
         for(int i = 0; i < programInstance.getPocetVeci(); i++){
-            modifiedInstance.addCena(i, programInstance.getCeny()[i] / bits);
+            modifiedInstance.addCena(i, (programInstance.getCeny()[i] / bits) + 1);
             modifiedInstance.addVaha(i, programInstance.getVahy()[i]);
         }
         

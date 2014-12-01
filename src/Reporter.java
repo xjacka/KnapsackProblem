@@ -51,7 +51,7 @@ public class Reporter {
             System.out.print(results.get(Result.SolveMethod.REFERENCE).getCenaReseni() + " ");
             System.out.print(results.get(Result.SolveMethod.FPTAS2).getCenaReseni() + " ");
             System.out.println(results.get(Result.SolveMethod.FPTAS8).getCenaReseni() + " ");
-        }
+            }            
         if(detail == Reporter.reportDetail.FILE){
             System.out.print(".");
             File resultFile = new File("result.dat");
