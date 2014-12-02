@@ -238,9 +238,9 @@ public class BagSolver {
         result.navstivenychStavu = 0;
         
         // parametry alg.
-        double coolingCoeficient = 0.9; // koefifient ochlazení
-        int innerLoop = programInstance.getPocetVeci() * 5; // počet opakování vnitřní smyčky
-        double temp = 2000; // počáteční teplota
+        double coolingCoeficient = 0.95; // koefifient ochlazení
+        int innerLoop = programInstance.getPocetVeci() * 100; // počet opakování vnitřní smyčky
+        double temp = 500; // počáteční teplota
         double minTemp = 1; // minimální teplota
 //        result = solveHeuristic(programInstance); // počátešní stav
 
@@ -248,10 +248,9 @@ public class BagSolver {
         
         while(temp > minTemp) {   
             for(int i = 0;i < innerLoop;i++){
-                Result newResult = new Result(result);
-                newResult = getNewState(result, newResult, temp, programInstance);
-                if(newResult.getCenaReseni() > bestResult.getCenaReseni()) {
-                    bestResult = newResult;
+                result = getNewState(result, new Result(result), temp, programInstance);
+                if(result.getCenaReseni() > bestResult.getCenaReseni()) {
+                    bestResult = result;
                 }
                 result.navstivenychStavu++;
             }
