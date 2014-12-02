@@ -1,6 +1,7 @@
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Random;
 import java.util.Stack;
 
 public class BagSolver {
@@ -228,6 +229,69 @@ public class BagSolver {
             }
         }        
         result.setCenaReseni(sum);
+        
+        return result;
+    }
+    
+    public Result solveSimulatedAnnealin(ProgramInstance programInstance){
+        Result result = new Result(programInstance,Result.SolveMethod.SIMULATED_ANNEALIN);
+        result.navstivenychStavu = 0;
+        
+        // parametry alg.
+        double coolingCoeficient = 0.9; // koefifient ochlazení
+        int innerLoop = programInstance.getPocetVeci() * 5; // počet opakování vnitřní smyčky
+        double temp = 2000; // počáteční teplota
+        double minTemp = 1; // minimální teplota
+//        result = solveHeuristic(programInstance); // počátešní stav
+
+        Result bestResult = result;
+        
+        while(temp > minTemp) {   
+            for(int i = 0;i < innerLoop;i++){
+                Result newResult = new Result(result);
+                newResult = getNewState(result, newResult, temp, programInstance);
+                if(newResult.getCenaReseni() > bestResult.getCenaReseni()) {
+                    bestResult = newResult;
+                }
+                result.navstivenychStavu++;
+            }
+            temp = temp * coolingCoeficient;
+        }
+        return bestResult;
+    }
+    
+    Result getNewState(Result oldResult, Result newResult, double temp, ProgramInstance instance) {
+        
+        // změna prvku v novém stavu
+        int index = new Random().nextInt(oldResult.getPocetVeci());
+        int bit = (oldResult.reseni[index] + 1) % 2;
+        newResult.addReseni(index,bit);        
+        int oldPrice = oldResult.getCenaReseni();
+        int oldWeight = oldResult.getVahaVeci();
+        int itemPrice = instance.ceny[index];
+        int itemWeight = instance.vahy[index];
+        if(bit == 1) {
+            newResult.setCenaReseni(oldPrice+itemPrice);
+            newResult.setVahaVeci(oldWeight+itemWeight);
+        }
+        else {
+            newResult.setCenaReseni(oldPrice-itemPrice);
+            newResult.setVahaVeci(oldWeight-itemWeight);
+        }
+        
+        double x = new Random().nextInt(oldResult.getPocetVeci())/oldResult.getPocetVeci();
+        double delta = newResult.getCenaReseni() - oldResult.getCenaReseni();
+        if((delta > 0 || x < Math.exp(-delta/temp)) && newResult.getVahaVeci() <= instance.getKapacitaBatohu()){
+            return newResult;
+        }
+        else { 
+            return oldResult;
+        }
+    }
+    
+    public Result solveGeneric(ProgramInstance programInstance){
+        Result result = new Result(programInstance,Result.SolveMethod.GENERIC);
+        result.navstivenychStavu = 0;
         
         return result;
     }

@@ -54,7 +54,7 @@ public class Ukol1 {
             
             // brute force
             t1 = getCpuTime();
-            Result bruteForceResult = bagSolver.solveBruteForce(instance);  
+            Result bruteForceResult = bagSolver.solveDynamicProgramming(instance);//bagSolver.solveBruteForce(instance);  
             t2 = getCpuTime();
             bruteForceResult.time = new Result.RunTime(t1, t2);
             ResInstances.put(Result.SolveMethod.BRUTE_FORCE,bruteForceResult);
@@ -80,21 +80,21 @@ public class Ukol1 {
             FPTASResult1.time = new Result.RunTime(t1, t2);
             ResInstances.put(Result.SolveMethod.FPTAS2,FPTASResult1);           
             
-             // FPTAS 2bity
+            // FPTAS 2bity
             t1 = getCpuTime();
             Result FPTASResult2 = bagSolver.solveFPTAS(instance, 4, Result.SolveMethod.FPTAS4);
             t2 = getCpuTime();
             FPTASResult2.time = new Result.RunTime(t1, t2);
             ResInstances.put(Result.SolveMethod.FPTAS4,FPTASResult2);      
             
-             // FPTAS 3bity
+            // FPTAS 3bity
             t1 = getCpuTime();
             Result FPTASResult3 = bagSolver.solveFPTAS(instance, 8, Result.SolveMethod.FPTAS8);
             t2 = getCpuTime();
             FPTASResult3.time = new Result.RunTime(t1, t2);
             ResInstances.put(Result.SolveMethod.FPTAS8,FPTASResult3);      
             
-             // FPTAS 4bity
+            // FPTAS 4bity
             t1 = getCpuTime();
             Result FPTASResult4 = bagSolver.solveFPTAS(instance, 16, Result.SolveMethod.FPTAS16);
             t2 = getCpuTime();
@@ -108,12 +108,26 @@ public class Ukol1 {
             FPTASResult5.time = new Result.RunTime(t1, t2);
             ResInstances.put(Result.SolveMethod.FPTAS32,FPTASResult5); 
             
-             // FPTAS 6bity
+            // FPTAS 6bity
             t1 = getCpuTime();
             Result FPTASResult6 = bagSolver.solveFPTAS(instance, 64, Result.SolveMethod.FPTAS64);
             t2 = getCpuTime();
             FPTASResult6.time = new Result.RunTime(t1, t2);
             ResInstances.put(Result.SolveMethod.FPTAS64,FPTASResult6);
+            
+            // Simulované ochlazování
+            t1 = getCpuTime();
+            Result simulatedAnnealinResult = bagSolver.solveSimulatedAnnealin(instance);
+            t2 = getCpuTime();
+            simulatedAnnealinResult.time = new Result.RunTime(t1, t2);
+            ResInstances.put(Result.SolveMethod.SIMULATED_ANNEALIN,simulatedAnnealinResult);
+            
+            // Generický algoritmus
+            t1 = getCpuTime();
+            Result genericResult = bagSolver.solveGeneric(instance);
+            t2 = getCpuTime();
+            genericResult.time = new Result.RunTime(t1, t2);
+            ResInstances.put(Result.SolveMethod.GENERIC,genericResult);
             
             // reference
             Result result = null;
@@ -131,7 +145,7 @@ public class Ukol1 {
             }
                         
             Reporter reporter = new Reporter(ResInstances,instance);
-            reporter.print(Reporter.reportDetail.FILE);
+            reporter.print(Reporter.reportDetail.DEVELOP);
         }
     }
     

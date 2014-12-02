@@ -22,7 +22,9 @@ public class Result {
         FPTAS32("FPTAS32"),
         FPTAS64("FPTAS64"),
         DYNAMIC("dymanic"),
-        HEURISTIC("heuristic");
+        SIMULATED_ANNEALIN("simulatedAnnealin"),
+        GENERIC("generic"),
+        HEURISTIC("heuristic");        
     
         private final String name;
 
@@ -47,6 +49,18 @@ public class Result {
         this.pocetVeci = n;
         this.id = id;
         this.name = name;
+    }
+    
+    public Result(Result result){
+        id = result.id;
+        pocetVeci = result.pocetVeci;
+        cenaReseni = result.cenaReseni;
+        reseni = new int[result.getPocetVeci()];
+        System.arraycopy(result.reseni, 0, reseni, 0, result.getPocetVeci());               
+        vahaVeci = result.vahaVeci;
+        navstivenychStavu = result.navstivenychStavu;
+        name = result.name;
+        time = result.time;
     }
     
     public Result(ProgramInstance programInstance,SolveMethod name){
@@ -90,11 +104,11 @@ public class Result {
     
     @Override
     public String toString(){
-        String reseni = "";
+        String reslt = "";
         for(int res : this.reseni){
-            reseni += res + " ";
+            reslt += res + " ";
         }
-        return "id: " + id + ", pocet: " + pocetVeci + ", cena_reseni: " + cenaReseni + " [" + reseni + "]";
+        return "id: " + id + ", pocet: " + pocetVeci + ", cena_reseni: " + cenaReseni + " [" + reslt + "]";
     }
 
     public boolean equals(Result ot){
