@@ -250,9 +250,10 @@ public class BagSolver {
             for(int i = 0;i < innerLoop;i++){
                 result = getNewState(result, new Result(result), temp, programInstance);
                 if(result.getCenaReseni() > bestResult.getCenaReseni()) {
+                    result.navstivenychStavu = bestResult.navstivenychStavu;
                     bestResult = result;
                 }
-                result.navstivenychStavu++;
+                bestResult.navstivenychStavu++;
             }
             temp = temp * coolingCoeficient;
         }
