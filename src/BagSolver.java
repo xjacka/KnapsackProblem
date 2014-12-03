@@ -3,6 +3,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Random;
 import java.util.Stack;
+import java.util.TreeMap;
 
 public class BagSolver {
     
@@ -240,8 +241,8 @@ public class BagSolver {
         // parametry alg.
         double coolingCoeficient = 0.95; // koefifient ochlazení
         int innerLoop = programInstance.getPocetVeci() * 100; // počet opakování vnitřní smyčky
-        double temp = 500; // počáteční teplota
-        double minTemp = 1; // minimální teplota
+        double temp = 0.5; // počáteční teplota
+        double minTemp = 0.001; // minimální teplota
 //        result = solveHeuristic(programInstance); // počátešní stav
 
         Result bestResult = result;
@@ -264,20 +265,8 @@ public class BagSolver {
         
         // změna prvku v novém stavu
         int index = new Random().nextInt(oldResult.getPocetVeci());
-        int bit = (oldResult.reseni[index] + 1) % 2;
-        newResult.addReseni(index,bit);        
-        int oldPrice = oldResult.getCenaReseni();
-        int oldWeight = oldResult.getVahaVeci();
-        int itemPrice = instance.ceny[index];
-        int itemWeight = instance.vahy[index];
-        if(bit == 1) {
-            newResult.setCenaReseni(oldPrice+itemPrice);
-            newResult.setVahaVeci(oldWeight+itemWeight);
-        }
-        else {
-            newResult.setCenaReseni(oldPrice-itemPrice);
-            newResult.setVahaVeci(oldWeight-itemWeight);
-        }
+        newResult.reseni[index] = (newResult.reseni[index] + 1) % 2;
+        newResult.updateVelues(instance);
         
         double x = new Random().nextInt(oldResult.getPocetVeci())/oldResult.getPocetVeci();
         double delta = newResult.getCenaReseni() - oldResult.getCenaReseni();
@@ -289,10 +278,94 @@ public class BagSolver {
         }
     }
     
-    public Result solveGeneric(ProgramInstance programInstance){
-        Result result = new Result(programInstance,Result.SolveMethod.GENERIC);
-        result.navstivenychStavu = 0;
+    public Result solveGeneric(ProgramInstance programInstance){       
+        // parametry
+        int populationSize = 50;
+        int generationsCount = 100;
+        int pocetKrizeni = 20;
+        float mutationProbability = 0.6f;
+        int selectionSize = 10;
         
-        return result;
+        ArrayList<Result> population = new ArrayList<>(populationSize);        
+        
+        // počáteční populace
+        for(int i = 0; i < populationSize ; i++){
+            Result result = new Result(programInstance,Result.SolveMethod.GENERIC);
+            result.navstivenychStavu = 0;            
+            for(int j = 0; j < programInstance.getPocetVeci(); j++){                
+                if(new Random().nextInt(result.getPocetVeci()) < (result.getPocetVeci()/10)){
+                    if((result.vahaVeci + programInstance.getVahy()[j]) <= programInstance.kapacitaBatohu){
+                        result.reseni[j] = 1;            
+                        result.cenaReseni += programInstance.getCeny()[j];
+                        result.vahaVeci += programInstance.getVahy()[j];
+                    }
+                }
+            }    
+            population.add(result);
+        }
+        
+        // určení nové generace
+        for(int i = 0; i < generationsCount; i++){
+            
+            // selekce
+            ArrayList<Result> newPopulation = new ArrayList<>(populationSize);
+            for(int j = 0; j < populationSize ; j++){
+                TreeMap<Integer, Result> selection = new TreeMap<>();
+                ArrayList<Integer> randoms = new ArrayList<>(selectionSize);
+                for(int k = 0; k < selectionSize ; k++){
+                    int random;
+                    do{
+                        random = new Random().nextInt(populationSize);
+                    } while(randoms.contains(random));
+                    randoms.add(random);
+                    Result r = population.get(random);
+                    int rank = r.vahaVeci > programInstance.kapacitaBatohu ? 1 : r.cenaReseni;
+                    selection.put(rank, r);
+                }
+                newPopulation.add(selection.get(selection.lastKey()));
+            }
+            population = newPopulation;
+            
+            // křížení
+            for(int j = 0; j < pocetKrizeni ; j++){
+                Result c1 = population.get(new Random().nextInt(populationSize));
+                Result c2 = population.get(new Random().nextInt(populationSize));
+                int point = new Random().nextInt(programInstance.pocetVeci) / 4;
+                for(int k = 0 ; k < point ; k++){
+                    int store = c1.reseni[k];
+                    c1.reseni[k] = c2.reseni[k];
+                    c2.reseni[k] = store;
+                }
+                c1.updateVelues(programInstance);
+                c2.updateVelues(programInstance);
+            }
+        
+            // mutace
+            for(int j = 0; j < populationSize ; j++){
+                int mutate = new Random().nextInt(100);
+                if(mutate < (mutationProbability * 100)){
+                    Result c1 = population.get(j);
+                    int point = new Random().nextInt(programInstance.pocetVeci);
+                    c1.reseni[point] = (c1.reseni[point] + 1) % 2;
+                    c1.updateVelues(programInstance);
+                }
+            }            
+        
+        }
+        
+        // vybrání nejlepšího reprezentanta z celé generace
+        Result best = null;
+        for(Result res : population){
+            if(best == null){
+                if(res.vahaVeci <= programInstance.kapacitaBatohu){
+                    best = res;
+                }
+                continue;
+            }
+            if(res.cenaReseni > best.cenaReseni && res.vahaVeci <= programInstance.kapacitaBatohu){
+                best = res;                                
+            }                
+        }        
+        return best == null ? population.get(0) : best;
     }
 }

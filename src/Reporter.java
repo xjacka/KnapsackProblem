@@ -48,15 +48,18 @@ public class Reporter {
 //            System.out.print(results.get(Result.SolveMethod.FPTAS32).getCenaReseni() + " ");
 //            System.out.println(results.get(Result.SolveMethod.FPTAS64).getCenaReseni());
             
-            System.out.print(results.get(Result.SolveMethod.REFERENCE).getCenaReseni() + " ");
+//            System.out.print(results.get(Result.SolveMethod.REFERENCE).getCenaReseni() + " ");
+//            System.out.print(String.format("%11.5f ", (double)(results.get(Result.SolveMethod.BRUTE_FORCE).getCenaReseni() // 20
+//                                                    - results.get(Result.SolveMethod.HEURISTIC).getCenaReseni())
+//                                                        / (double)results.get(Result.SolveMethod.BRUTE_FORCE).getCenaReseni()));
             System.out.print(String.format("%11.5f ", (double)(results.get(Result.SolveMethod.BRUTE_FORCE).getCenaReseni() // 20
-                                                    - results.get(Result.SolveMethod.HEURISTIC).getCenaReseni())
+                                                    - results.get(Result.SolveMethod.GENERIC).getCenaReseni())
                                                         / (double)results.get(Result.SolveMethod.BRUTE_FORCE).getCenaReseni()));
-            System.out.print(String.format("%11.5f ", (double)(results.get(Result.SolveMethod.BRUTE_FORCE).getCenaReseni() // 20
+            System.out.println(String.format("%11.5f ", (double)(results.get(Result.SolveMethod.BRUTE_FORCE).getCenaReseni() // 20
                                                     - results.get(Result.SolveMethod.SIMULATED_ANNEALIN).getCenaReseni())
                                                         / (double)results.get(Result.SolveMethod.BRUTE_FORCE).getCenaReseni()));
-            System.out.println(results.get(Result.SolveMethod.SIMULATED_ANNEALIN).navstivenychStavu);
-//            System.out.println(results.get(Result.SolveMethod.SIMULATED_ANNEALIN).toString() + " ");
+//            System.out.println(results.get(Result.SolveMethod.SIMULATED_ANNEALIN).navstivenychStavu);
+//            System.out.println(results.get(Result.SolveMethod.GENERIC).toString() + " ");
             }            
         if(detail == Reporter.reportDetail.FILE){
             System.out.print(".");

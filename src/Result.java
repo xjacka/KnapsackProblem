@@ -11,6 +11,17 @@ public class Result {
     SolveMethod name;
     public RunTime time;
 
+    void updateVelues(ProgramInstance programInstance) {
+        cenaReseni = 0;
+        vahaVeci = 0;
+        for(int j = 0; j < pocetVeci; j++){        
+            if(reseni[j] == 1){
+                cenaReseni += programInstance.getCeny()[j];
+                vahaVeci += programInstance.getVahy()[j];                
+            }
+        }
+    }
+
     public static enum SolveMethod {
         BRUTE_FORCE("bruteForce"),
         REFERENCE("reference"),
