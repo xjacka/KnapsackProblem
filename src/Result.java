@@ -16,8 +16,8 @@ public class Result {
         vahaVeci = 0;
         for(int j = 0; j < pocetVeci; j++){        
             if(reseni[j] == 1){
-                cenaReseni += programInstance.getCeny()[j];
-                vahaVeci += programInstance.getVahy()[j];                
+                cenaReseni += programInstance.ceny[j];
+                vahaVeci += programInstance.vahy[j];                
             }
         }
     }
@@ -34,7 +34,7 @@ public class Result {
         FPTAS64("FPTAS64"),
         DYNAMIC("dymanic"),
         SIMULATED_ANNEALIN("simulatedAnnealin"),
-        GENERIC("generic"),
+        GENETIC("genetic"),
         HEURISTIC("heuristic");        
     
         private final String name;

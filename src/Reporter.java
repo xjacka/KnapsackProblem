@@ -52,12 +52,12 @@ public class Reporter {
 //            System.out.print(String.format("%11.5f ", (double)(results.get(Result.SolveMethod.BRUTE_FORCE).getCenaReseni() // 20
 //                                                    - results.get(Result.SolveMethod.HEURISTIC).getCenaReseni())
 //                                                        / (double)results.get(Result.SolveMethod.BRUTE_FORCE).getCenaReseni()));
-            System.out.print(String.format("%11.5f ", (double)(results.get(Result.SolveMethod.BRUTE_FORCE).getCenaReseni() // 20
-                                                    - results.get(Result.SolveMethod.GENERIC).getCenaReseni())
-                                                        / (double)results.get(Result.SolveMethod.BRUTE_FORCE).getCenaReseni()));
             System.out.println(String.format("%11.5f ", (double)(results.get(Result.SolveMethod.BRUTE_FORCE).getCenaReseni() // 20
-                                                    - results.get(Result.SolveMethod.SIMULATED_ANNEALIN).getCenaReseni())
+                                                    - results.get(Result.SolveMethod.GENETIC).getCenaReseni())
                                                         / (double)results.get(Result.SolveMethod.BRUTE_FORCE).getCenaReseni()));
+//            System.out.println(String.format("%11.5f ", (double)(results.get(Result.SolveMethod.BRUTE_FORCE).getCenaReseni() // 20
+//                                                    - results.get(Result.SolveMethod.SIMULATED_ANNEALIN).getCenaReseni())
+//                                                        / (double)results.get(Result.SolveMethod.BRUTE_FORCE).getCenaReseni()));
 //            System.out.println(results.get(Result.SolveMethod.SIMULATED_ANNEALIN).navstivenychStavu);
 //            System.out.println(results.get(Result.SolveMethod.GENERIC).toString() + " ");
             }            

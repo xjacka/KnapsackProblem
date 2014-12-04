@@ -280,27 +280,32 @@ public class BagSolver {
     
     public Result solveGeneric(ProgramInstance programInstance){       
         // parametry
-        int populationSize = 50;
-        int generationsCount = 100;
-        int pocetKrizeni = 20;
+        int populationSize = 80;
+        int generationsCount = 150;
+        int pocetKrizeni = generationsCount / 10;
         float mutationProbability = 0.6f;
         int selectionSize = 10;
+        int penalization = 5;
         
         ArrayList<Result> population = new ArrayList<>(populationSize);        
         
         // počáteční populace
         for(int i = 0; i < populationSize ; i++){
-            Result result = new Result(programInstance,Result.SolveMethod.GENERIC);
-            result.navstivenychStavu = 0;            
-            for(int j = 0; j < programInstance.getPocetVeci(); j++){                
-                if(new Random().nextInt(result.getPocetVeci()) < (result.getPocetVeci()/10)){
-                    if((result.vahaVeci + programInstance.getVahy()[j]) <= programInstance.kapacitaBatohu){
-                        result.reseni[j] = 1;            
-                        result.cenaReseni += programInstance.getCeny()[j];
-                        result.vahaVeci += programInstance.getVahy()[j];
+            Result result = new Result(programInstance,Result.SolveMethod.GENETIC);
+            result.navstivenychStavu = 0; 
+            if(i%20 == 0){
+                for(int j = 0; j < programInstance.getPocetVeci(); j++){                
+                    if(new Random().nextInt(result.getPocetVeci()) < (result.getPocetVeci()/4)){
+                        if((result.vahaVeci + programInstance.getVahy()[j]) <= programInstance.kapacitaBatohu){
+                            result.reseni[j] = 1;            
+                            result.cenaReseni += programInstance.getCeny()[j];
+                            result.vahaVeci += programInstance.getVahy()[j];
+                        }
                     }
-                }
-            }    
+                }   
+            }else {
+                result = solveHeuristic(programInstance);
+            }
             population.add(result);
         }
         
@@ -319,13 +324,15 @@ public class BagSolver {
                     } while(randoms.contains(random));
                     randoms.add(random);
                     Result r = population.get(random);
-                    int rank = r.vahaVeci > programInstance.kapacitaBatohu ? 1 : r.cenaReseni;
+                    int rank = r.vahaVeci > programInstance.kapacitaBatohu ? 
+                        r.cenaReseni - (r.vahaVeci - programInstance.kapacitaBatohu) * penalization : 
+                        r.cenaReseni;
                     selection.put(rank, r);
                 }
-                newPopulation.add(selection.get(selection.lastKey()));
+                newPopulation.add(new Result(selection.get(selection.lastKey())));
             }
             population = newPopulation;
-            
+               
             // křížení
             for(int j = 0; j < pocetKrizeni ; j++){
                 Result c1 = population.get(new Random().nextInt(populationSize));
@@ -339,12 +346,11 @@ public class BagSolver {
                 c1.updateVelues(programInstance);
                 c2.updateVelues(programInstance);
             }
-        
+            
             // mutace
-            for(int j = 0; j < populationSize ; j++){
+            for(Result c1 : population){
                 int mutate = new Random().nextInt(100);
                 if(mutate < (mutationProbability * 100)){
-                    Result c1 = population.get(j);
                     int point = new Random().nextInt(programInstance.pocetVeci);
                     c1.reseni[point] = (c1.reseni[point] + 1) % 2;
                     c1.updateVelues(programInstance);
