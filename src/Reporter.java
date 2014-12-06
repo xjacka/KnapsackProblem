@@ -19,47 +19,23 @@ public class Reporter {
     
     public void print(Reporter.reportDetail detail){
         if(detail == reportDetail.FULL){
-            System.out.print(results.get(Result.SolveMethod.REFERENCE) .getId() + ">");
-            for (Result res : results.values()){
-                System.out.print(" " +res.getName().getName() + ": ");
-                System.out.print(res.cenaReseni);
-                System.out.print(" (" + res.getTime(Result.RunTime.Unit.MILLI) + ") ");
-            }
-            System.out.println("");
+            double a = (double)(results.get(Result.SolveMethod.BRUTE_FORCE).getCenaReseni()
+                                                    - results.get(Result.SolveMethod.SIMULATED_ANNEALIN).getCenaReseni())
+                                                        / (double)results.get(Result.SolveMethod.BRUTE_FORCE).getCenaReseni();
+            System.out.println(String.format("%#.5f",a));
         }
         if(detail == reportDetail.DEVELOP){
-//            System.out.print(results.get(Result.SolveMethod.BRUTE_FORCE).cenaReseni);
-//            System.out.print(" (" + results.get(Result.SolveMethod.BRUTE_FORCE).getTime(Result.RunTime.Unit.MILLI) + ") ");
-//
-//            System.out.print(results.get(Result.SolveMethod.BRANCH_AND_BOUND).cenaReseni);
-//            System.out.print(" (" + results.get(Result.SolveMethod.BRANCH_AND_BOUND).getTime(Result.RunTime.Unit.MILLI) + ") ");
-//            
-//            System.out.print("= " + (results.get(Result.SolveMethod.BRUTE_FORCE).getTime(Result.RunTime.Unit.MILLI) / results.get(Result.SolveMethod.BRANCH_AND_BOUND).getTime(Result.RunTime.Unit.MILLI)));
-//            
-//            if(results.get(Result.SolveMethod.BRUTE_FORCE).cenaReseni != results.get(Result.SolveMethod.BRANCH_AND_BOUND).cenaReseni){
-//                System.out.print(" false");
-//            }
-//            System.out.println("");
-//            System.out.print(results.get(Result.SolveMethod.REFERENCE).getCenaReseni() + " ");
-//            System.out.print(results.get(Result.SolveMethod.FPTAS2).getCenaReseni() + " ");
-//            System.out.print(results.get(Result.SolveMethod.FPTAS4).getCenaReseni() + " ");
-//            System.out.print(results.get(Result.SolveMethod.FPTAS8).getCenaReseni() + " ");
-//            System.out.print(results.get(Result.SolveMethod.FPTAS16).getCenaReseni() + " ");
-//            System.out.print(results.get(Result.SolveMethod.FPTAS32).getCenaReseni() + " ");
-//            System.out.println(results.get(Result.SolveMethod.FPTAS64).getCenaReseni());
-            
-//            System.out.print(results.get(Result.SolveMethod.REFERENCE).getCenaReseni() + " ");
-//            System.out.print(String.format("%11.5f ", (double)(results.get(Result.SolveMethod.BRUTE_FORCE).getCenaReseni() // 20
-//                                                    - results.get(Result.SolveMethod.HEURISTIC).getCenaReseni())
-//                                                        / (double)results.get(Result.SolveMethod.BRUTE_FORCE).getCenaReseni()));
-            System.out.println(String.format("%11.5f ", (double)(results.get(Result.SolveMethod.BRUTE_FORCE).getCenaReseni() // 20
+            System.out.print(String.format("%#.5f", (double)(results.get(Result.SolveMethod.BRUTE_FORCE).getCenaReseni() // 1
                                                     - results.get(Result.SolveMethod.GENETIC).getCenaReseni())
                                                         / (double)results.get(Result.SolveMethod.BRUTE_FORCE).getCenaReseni()));
-//            System.out.println(String.format("%11.5f ", (double)(results.get(Result.SolveMethod.BRUTE_FORCE).getCenaReseni() // 20
-//                                                    - results.get(Result.SolveMethod.SIMULATED_ANNEALIN).getCenaReseni())
-//                                                        / (double)results.get(Result.SolveMethod.BRUTE_FORCE).getCenaReseni()));
-//            System.out.println(results.get(Result.SolveMethod.SIMULATED_ANNEALIN).navstivenychStavu);
-//            System.out.println(results.get(Result.SolveMethod.GENERIC).toString() + " ");
+            System.out.print(";");
+            System.out.print(String.format("%#.5f", (double)(results.get(Result.SolveMethod.BRUTE_FORCE).getCenaReseni() // 2
+                                                    - results.get(Result.SolveMethod.SIMULATED_ANNEALIN).getCenaReseni())
+                                                        / (double)results.get(Result.SolveMethod.BRUTE_FORCE).getCenaReseni()));
+            System.out.print(";");
+            System.out.print(String.format("%#.5f", (double)(results.get(Result.SolveMethod.GENETIC).getTime(Result.RunTime.Unit.MILLI)))); // 3
+            System.out.print(";");
+            System.out.println(String.format("%#.5f", (double)(results.get(Result.SolveMethod.SIMULATED_ANNEALIN).getTime(Result.RunTime.Unit.MILLI)))); // 4 
             }            
         if(detail == Reporter.reportDetail.FILE){
             System.out.print(".");

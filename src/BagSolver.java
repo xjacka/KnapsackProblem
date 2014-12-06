@@ -237,13 +237,12 @@ public class BagSolver {
     public Result solveSimulatedAnnealin(ProgramInstance programInstance){
         Result result = new Result(programInstance,Result.SolveMethod.SIMULATED_ANNEALIN);
         result.navstivenychStavu = 0;
-        
+          
         // parametry alg.
         double coolingCoeficient = 0.95; // koefifient ochlazení
         int innerLoop = programInstance.getPocetVeci() * 100; // počet opakování vnitřní smyčky
         double temp = 0.5; // počáteční teplota
         double minTemp = 0.001; // minimální teplota
-//        result = solveHeuristic(programInstance); // počátešní stav
 
         Result bestResult = result;
         
@@ -254,26 +253,28 @@ public class BagSolver {
                     result.navstivenychStavu = bestResult.navstivenychStavu;
                     bestResult = result;
                 }
-                bestResult.navstivenychStavu++;
-            }
+                bestResult.navstivenychStavu++;                                
+            }            
             temp = temp * coolingCoeficient;
         }
         return bestResult;
     }
     
-    Result getNewState(Result oldResult, Result newResult, double temp, ProgramInstance instance) {
+    private Result getNewState(Result oldResult, Result newResult, double temp, ProgramInstance instance) {
         
-        // změna prvku v novém stavu
-        int index = new Random().nextInt(oldResult.getPocetVeci());
-        newResult.reseni[index] = (newResult.reseni[index] + 1) % 2;
-        newResult.updateVelues(instance);
+        // změna prvku v novém stavu        
+        do{
+            int index = new Random().nextInt(instance.getPocetVeci());
+            newResult.reseni[index] = (newResult.reseni[index] + 1) % 2;
+            newResult.updateVelues(instance);
+        } while (newResult.vahaVeci > instance.getKapacitaBatohu());
         
         double x = new Random().nextInt(oldResult.getPocetVeci())/oldResult.getPocetVeci();
         double delta = newResult.getCenaReseni() - oldResult.getCenaReseni();
-        if((delta > 0 || x < Math.exp(-delta/temp)) && newResult.getVahaVeci() <= instance.getKapacitaBatohu()){
+        if(delta > 0 || x < Math.exp(-delta/temp)){
             return newResult;
         }
-        else { 
+        else {             
             return oldResult;
         }
     }
@@ -324,6 +325,7 @@ public class BagSolver {
                     } while(randoms.contains(random));
                     randoms.add(random);
                     Result r = population.get(random);
+                    // fitness funkce
                     int rank = r.vahaVeci > programInstance.kapacitaBatohu ? 
                         r.cenaReseni - (r.vahaVeci - programInstance.kapacitaBatohu) * penalization : 
                         r.cenaReseni;
