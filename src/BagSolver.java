@@ -281,10 +281,10 @@ public class BagSolver {
     
     public Result solveGeneric(ProgramInstance programInstance){       
         // parametry
-        int populationSize = 80;
-        int generationsCount = 150;
+        int populationSize = 160;
+        int generationsCount = 50;
         int pocetKrizeni = generationsCount / 10;
-        float mutationProbability = 0.6f;
+        float mutationProbability = 0.8f;
         int selectionSize = 10;
         int penalization = 5;
         
@@ -294,7 +294,7 @@ public class BagSolver {
         for(int i = 0; i < populationSize ; i++){
             Result result = new Result(programInstance,Result.SolveMethod.GENETIC);
             result.navstivenychStavu = 0; 
-            if(i%20 == 0){
+//            if(i%20 == 0){
                 for(int j = 0; j < programInstance.getPocetVeci(); j++){                
                     if(new Random().nextInt(result.getPocetVeci()) < (result.getPocetVeci()/4)){
                         if((result.vahaVeci + programInstance.getVahy()[j]) <= programInstance.kapacitaBatohu){
@@ -304,9 +304,9 @@ public class BagSolver {
                         }
                     }
                 }   
-            }else {
-                result = solveHeuristic(programInstance);
-            }
+//            }else {
+//                result = solveHeuristic(programInstance);
+//            }
             population.add(result);
         }
         

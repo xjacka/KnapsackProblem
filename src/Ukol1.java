@@ -40,7 +40,6 @@ public class Ukol1 {
     }
     
     private static void solve(ArrayList<ProgramInstance> instances,ArrayList<Result> results){        
-//        ProgramInstance instance = instances.get(3);
         for(ProgramInstance instance : instances){   
             HashMap<Result.SolveMethod,Result> ResInstances = new HashMap<>();
             Long t1, t2;
@@ -127,7 +126,7 @@ public class Ukol1 {
             Result genericResult = bagSolver.solveGeneric(instance);
             t2 = getCpuTime();
             genericResult.time = new Result.RunTime(t1, t2);
-            ResInstances.put(Result.SolveMethod.GENERIC,genericResult);
+            ResInstances.put(Result.SolveMethod.GENETIC,genericResult);
             
             // reference
             Result result = null;
@@ -150,7 +149,6 @@ public class Ukol1 {
     }
     
     public static long getCpuTime( ) {
-//        return System.nanoTime();
     ThreadMXBean bean = ManagementFactory.getThreadMXBean( );
     return bean.isCurrentThreadCpuTimeSupported( ) ?
         bean.getCurrentThreadCpuTime( ) : 0L;
